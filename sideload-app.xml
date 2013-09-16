@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?> 
-<application xmlns="http://ns.adobe.com/air/application/1.0"> 
+<application xmlns="http://ns.adobe.com/air/application/3.8"> 
   <id>samples.flex.HelloWorld</id> 
-  <versionNumber>0.1</versionNumber> 
+  <versionNumber>0.2</versionNumber> 
   <filename>SideLoad</filename> 
   <initialWindow> 
-    <content>SideLoad.swf</content> 
+    <content>swf_air/build/main.html</content> 
     <visible>true</visible> 
-    <width>400</width> 
-    <height>200</height> 
+    <width>800</width> 
+    <height>600</height> 
   </initialWindow> 
 </application>
