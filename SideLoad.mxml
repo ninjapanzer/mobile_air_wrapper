@@ -4,7 +4,6 @@
                        xmlns:mx="library://ns.adobe.com/flex/mx" 
                        title="Hello World"> 
    
-  <s:Label text="Hello AIR" horizontalCenter="0" verticalCenter="0"/>
   <fx:Script source="swf.as"/>
   
 </s:WindowedApplication>  
