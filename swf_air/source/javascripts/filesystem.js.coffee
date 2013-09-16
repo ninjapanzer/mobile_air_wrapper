@@ -1,0 +1,15 @@
+air.trace("Hello World")
+
+prefsFile = air.File.applicationStorageDirectory.resolvePath("prefs.pnz")
+air.trace("allocate File")
+stream = new air.FileStream()
+stream.open(prefsFile, air.FileMode.WRITE)
+air.trace("write hi")
+stream.writeUTFBytes("hi")
+stream.close()
+air.trace("close")
+
+stream.open(prefsFile, air.FileMode.READ)
+prefsXML = stream.readUTFBytes(stream.bytesAvailable)
+air.trace(prefsXML)
+stream.close()
