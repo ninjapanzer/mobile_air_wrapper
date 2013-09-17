@@ -6,7 +6,7 @@
   <initialWindow> 
     <content>Main.swf</content> 
     <visible>true</visible> 
-    <width>800</width> 
-    <height>600</height> 
+    <width>1600</width> 
+    <height>1200</height> 
   </initialWindow> 
 </application>

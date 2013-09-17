@@ -9,8 +9,13 @@ package {
         {
             var html:HTMLLoader = new HTMLLoader();
             var urlReq:URLRequest = new URLRequest("http://lms.thinkthroughmath.com/");
-            html.width = stage.stageWidth;
-            html.height = stage.stageHeight;
+            trace(stage.stageWidth);
+            trace(stage.stageHeight);
+            trace("HI");
+            html.width = 500;
+            html.height = 500;
+            html.scrollH = 1000;
+            html.scrollV = 2000;
             html.load(urlReq); 
             addChild(html);
         }
