@@ -1,0 +1,3 @@
+[submodule "air_config"]
+	path = air_config
+	url = git@heroku.com:boiling-fortress-9689.git
