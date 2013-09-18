@@ -25,3 +25,11 @@ AIR Wrapper Setup
 #Questions
 
 If you have some questions please let me know pscarrone@thinkthroughmath.com
+
+
+#Building
+* send to device ~/Development/adt-bundle-mac-x86_64-20130911/sdk/platform-tools/adb -d install ~/workrepos/air_sideload_prototype/HelloWorld.apk
+* make self signed key ../runtimes/flex_sdk_4.6/bin/adt -certificate -validityPeriod 25 -cn SelfSigned 1024-RSA sampleCert.pfx xxx
+  * Password is 'xxx' 
+* Package ipk untimes/AdobeAIRSDK/bin/adt -package -target apk -storetype pkcs12 -keystore sampleCert.pfx HelloWorld.apk sideload-app-as3-as.xml Main.swf
+  * You gotta build first with the compile and run command above 
