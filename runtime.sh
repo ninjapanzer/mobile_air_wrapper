@@ -1,9 +1,7 @@
-#!/bin/sh
-
 RUNTIME_ARCHIVE="https://docs.google.com/a/thinkthroughmath.com/file/d/0B6jQ5p6g8RtodVVuYUwtQmhWVFk/edit?usp=sharing"
 
-FLEX_LOC=../runtimes/flex_sdk_4.6/bin
-AIR_LOC=../runtimes/AdobeAIRSDK/bin
+FLEX_LOC=runtimes/flex_sdk_4.6/bin
+AIR_LOC=runtimes/AdobeAIRSDK/bin
 
 FLEX=`which $FLEX_LOC/amxmlc`
 AIR=`which $AIR_LOC/adl`
@@ -23,9 +21,3 @@ if [[ "$FLEX" == "" || "$AIR" == "" ]]; then
   echo "  | <FlexSDK>"
   echo "\nFor extra configuration edit the FLEX_LOC and AIR_LOC of this file\n\n\n"
 fi
-
-cd swf_air
-middleman build --verbose
-cd ..
-
-$AIR_LOC/adl sideload-app-js.xml

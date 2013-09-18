@@ -23,7 +23,7 @@ if [[ "$FLEX" == "" || "$AIR" == "" ]]; then
   echo "  | <FlexSDK>"
   echo "\nFor extra configuration edit the FLEX_LOC and AIR_LOC of this file\n\n\n"
 else
-  runtimes/flex_sdk_4.6/bin/amxmlc Main.as
+  $FLEX_LOC/amxmlc Main.as
 
-  runtimes/AdobeAIRSDK/bin/adl sideload-app-as3-as.xml
+  $AIR_LOC/adl sideload-app-as3-as.xml
 fi

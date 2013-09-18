@@ -8,5 +8,14 @@
     <visible>true</visible> 
     <width>1600</width> 
     <height>1200</height> 
-  </initialWindow> 
+  </initialWindow>
+  <android>
+    <manifestAdditions>
+      <![CDATA[
+        <manifest>
+          <uses-permission android:name="android.permission.INTERNET" />
+        </manifest>
+      ]]>
+    </manifestAdditions>
+  </android>
 </application>
