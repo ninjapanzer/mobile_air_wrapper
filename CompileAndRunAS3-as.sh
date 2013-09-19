@@ -25,5 +25,5 @@ if [[ "$FLEX" == "" || "$AIR" == "" ]]; then
 else
   $FLEX_LOC/amxmlc Main.as
 
-  $AIR_LOC/adl sideload-app-as3-as.xml
+  $AIR_LOC/adl ttm_mobile-app-as3-as.xml
 fi

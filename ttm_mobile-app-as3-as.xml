@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <application xmlns="http://ns.adobe.com/air/application/3.8"> 
-  <id>samples.flex.HelloWorld</id> 
+  <id>proto.ttm.mobileplayer</id> 
   <versionNumber>0.2</versionNumber> 
-  <filename>SideLoad</filename> 
+  <filename>TTM Mobile</filename> 
   <initialWindow> 
     <content>Main.swf</content> 
     <visible>true</visible> 
