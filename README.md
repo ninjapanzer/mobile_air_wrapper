@@ -44,6 +44,15 @@ This guy is on heroku for now as super small sinatra endpoint that returns json.
 		$ git remote add git@heroku.com:boiling-fortress-9689.git
 
 #Building - Android
+
+###Using commands
+* chmod +x build_android_debug.sh
+* ./build_android_debug.sh
+
+This is assuming that you have your sdks in the correct location
+
+
+
 ###The build process from flex and the ADT tools requires a few steps.
 We are going to need a compiled AIR application usually the result of the CompileAndRun command for testing. We will also need a signing for the apk and then we will be pushing the package to either a real device or a simulator.
 
@@ -79,14 +88,22 @@ I prefer to use the android sdk but to save you the time of having to download a
 		-d  references the first android device attached
 		-e  references the first running emulator attached
 		
+#Building - iOS
+### Using Commands
+* chmod +x build_ios_debug.sh
+* chmod +x build_ios_simulator.sh
+* ./build_ios_debug.sh
+* ./build_ios_simulator.sh
+
+This assumes that you have xcode and the ios 6.1 simulator installed
+
+		
 #TroubleShooting
 If you load the app and recieve a white page. 
 
 *  First check the applications network connection. The wifi at the office is a real mess and it will show connected but will not be able to make any network requests until you power cycle the wifi.
 *  Also make sure that the heroku app is pointed to a running instance of apangea. It is possible to deliver a local ip address via the config app so do not assume tha it is pointing to an external source like review.thinkthroughmath.com
 
-#Building - iOS
-* TBD
 
 #Questions
 
