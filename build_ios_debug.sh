@@ -1,6 +1,7 @@
 #!/bin/sh
 
 AIR_LOC=runtimes/AdobeAIRSDK/bin
+FLEX_LOC=runtimes/flex_sdk_4.6/bin
 KEY_LOC=keys/ios
 BUILD_LOC=builds/ios
 
