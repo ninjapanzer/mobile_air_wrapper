@@ -4,6 +4,7 @@ RUNTIME_ARCHIVE="https://docs.google.com/a/thinkthroughmath.com/file/d/0B6jQ5p6g
 
 FLEX_LOC=runtimes/flex_sdk_4.6/bin
 AIR_LOC=runtimes/AdobeAIRSDK/bin
+BUILD_LOC=builds/air
 
 FLEX=`which $FLEX_LOC/amxmlc`
 AIR=`which $AIR_LOC/adl`

@@ -3,3 +3,4 @@ runtimes/AdobeAIRSDK
 runtimes/flex_sdk_*
 Main.swf
 *.apk
+*.ipa
