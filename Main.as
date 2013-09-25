@@ -18,10 +18,13 @@ package {
   import mx.controls.SWFLoader;
 
   import LogWriter;
+  import Runnable;
 
   public class Main extends Sprite {
     [Embed(source="experiments/testMotion.swf")]
       private var GameLevel:Class;
+    [Embed(source="experiments/blank_air/blank.swf")]
+      private var blank:Class;
 
     private var logFile:File = File.documentsDirectory.resolvePath("debug.log")
     private var logger:LogWriter = new LogWriter(logFile);
@@ -30,20 +33,9 @@ package {
 
     public function Main():void {
       logger.debug("Starting");
-      var startOrientation:String = stage.orientation; 
-      stage.addEventListener(StageOrientationEvent.ORIENTATION_CHANGING, orientationChangeListener);
       loadConfig();
       logger.debug("Done");
     }
-
-    private function orientationChangeListener(e:StageOrientationEvent):void
-      {
-        logger.info("Rotating");
-         if (e.afterOrientation == StageOrientation.DEFAULT || e.afterOrientation ==  StageOrientation.UPSIDE_DOWN)
-         {
-           e.preventDefault();
-         }
-      }
 
     public function loadConfig():void{
       var loader:URLLoader = new URLLoader();
@@ -74,7 +66,7 @@ package {
 
       logger.debug("Loading the SWF Stage");
       var swfloader:Loader = new Loader();
-      var url:URLRequest = new URLRequest("experiments/testMotion.swf");
+      var url:URLRequest = new URLRequest("experiments/blank_air/blank.swf");
       logger.debug(url.url);
       var loaderContext:LoaderContext = new LoaderContext(false, ApplicationDomain.currentDomain, null);
       swfloader.contentLoaderInfo.addEventListener(Event.COMPLETE, onSwfLoaded);
@@ -98,21 +90,32 @@ package {
       stage.scaleMode = StageScaleMode.EXACT_FIT;
       webView.addEventListener("resize", resizeHandler);
       webView.addEventListener(LocationChangeEvent.LOCATION_CHANGING, onLocationChange);
-      webView.dispatchEvent(new Event(Event.RESIZE));
       webView.addEventListener(Event.COMPLETE, onWebViewLoaded);
-      logger.info("Setting up Click Event Listener");
-      stage.addEventListener(MouseEvent.CLICK, stageClick);
-      webView.dispatchEvent(new MouseEvent(MouseEvent.CLICK));
 
       webView.viewPort = new Rectangle( 0, 0, stage.stageWidth, stage.stageHeight );
-      webView.loadURL( config.location );                               
+      webView.loadURL( config.location );
       logger.debug("Finished Loading Web View");
     }
 
     private function onWebViewLoaded(e:Event):void{
       logger.info("WebViewCOmpleted");
       webView.stage = null;
-      SWFStage("thing");
+      var loader:Loader = new Loader();
+      loader.load(new URLRequest("experiments/blank_air/blank.swf"));
+      loader.contentLoaderInfo.addEventListener(Event.COMPLETE, gameLoadComplete);
+      //_myVariable.Main(this.stage);
+      //thing.Main(this.stage);
+      //addChild(thing);
+      //thing.addEventListener(Event.COMPLETE, gameLoadComplete);
+      //SWFStage("thing");
+    }
+
+    private function gameLoadComplete(e:Event):void{
+      logger.debug("loading Complete for external swf");
+      var _myVariable:* = e.target.content;
+      logger.info("Triggering new stage");
+      _myVariable.Main(this.stage);
+
     }
 
     private function stageClick(event:MouseEvent):void{

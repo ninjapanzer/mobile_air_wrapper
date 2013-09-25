@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<application xmlns="http://ns.adobe.com/air/application/3.8"
+             xmlns:s="library://ns.adobe.com/flex/spark"
+             xmlns:mx="library://ns.adobe.com/flex/mx">
+  <id>proto.ttm.mobileplayer.subtest</id> 
+  <versionNumber>0.2.1</versionNumber>
+  <name>TTM_sub</name>
+  <filename>TTM Mobile</filename> 
+  <supportedProfiles>mobileDevice</supportedProfiles>
+  <initialWindow> 
+    <content>blank.swf</content> 
+    <visible>true</visible> 
+  </initialWindow>
+  <icon> 
+    <image29x29>icons/Icon-Small.png</image29x29> 
+    <image57x57>icons/Icon.png</image57x57> 
+    <image512x512>icons/512.png</image512x512>
+  </icon>
+  <iPhone>
+    <InfoAdditions> 
+      <![CDATA[
+         <key>UIDeviceFamily</key>
+            <array>
+              <string>1</string>
+              <string>2</string>
+            </array>
+      ]]>
+    </InfoAdditions>
+  </iPhone>
+  <android>
+    <manifestAdditions>
+      <![CDATA[
+        <manifest>
+          <uses-permission android:name="android.permission.INTERNET" />
+        </manifest>
+      ]]>
+    </manifestAdditions>
+  </android>
+</application>
