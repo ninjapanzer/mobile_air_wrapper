@@ -4,3 +4,6 @@ runtimes/flex_sdk_*
 Main.swf
 *.apk
 *.ipa
+*.tmp
+*.o
+*.asm
