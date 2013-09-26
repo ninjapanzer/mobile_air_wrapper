@@ -65,14 +65,25 @@ package {
       var loader:Loader = new Loader();
       var lc:LoaderContext = new LoaderContext(false, ApplicationDomain.currentDomain, null);
       loader.contentLoaderInfo.addEventListener(Event.COMPLETE, gameLoadComplete);
-      loader.load(new URLRequest("assets/blank.swf"), lc);
+      loader.load(new URLRequest("blank.swf"), lc);
+      webView.stage = null;
     }
 
     private function gameLoadComplete(e:Event):void{
+
+      //Start at http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/system/ApplicationDomain.html#includeExamplesSummary
+
+      var someblank:Class = ApplicationDomain.currentDomain.getDefinition("blank") as Class;
+      var myBlank:someblank = someblank(e.target.content);
       logger.debug("loading Complete for external swf");
-      var _myVariable:* = e.target.content;
+      var li:LoaderInfo = LoaderInfo(e.target)
+      var loader:Loader = li.loader
+
+      //var _myVariable:* = e.target.content;
       logger.info("Triggering new stage");
-      _myVariable.Main(this.stage);
+      //_myVariable.Main(this.stage);
+
+      logger.info("Triggering new stage");
       webView.stage = this.stage;
 
     }
