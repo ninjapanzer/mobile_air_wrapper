@@ -5,26 +5,16 @@ package {
   import flash.filesystem.*;
   import flash.media.StageWebView;
   import flash.geom.Rectangle;
-  import flash.events.KeyboardEvent;
-  import flash.ui.Keyboard;
-  import flash.desktop.NativeApplication;
   import flash.events.*;
   import flash.net.*;
   import flash.net.URLLoader;
 
-  import flash.system.SecurityDomain;
   import flash.system.ApplicationDomain;
   import flash.system.LoaderContext;
-  import mx.controls.SWFLoader;
 
   import LogWriter;
-  import Runnable;
 
   public class Main extends Sprite {
-    [Embed(source="experiments/testMotion.swf")]
-      private var GameLevel:Class;
-    [Embed(source="experiments/blank_air/blank.swf")]
-      private var blank:Class;
 
     private var logFile:File = File.documentsDirectory.resolvePath("debug.log")
     private var logger:LogWriter = new LogWriter(logFile);
@@ -42,8 +32,7 @@ package {
       var configURL:String = "http://boiling-fortress-9689.herokuapp.com/whereload.json";
       configureListeners(loader);
       logger.debug("Loading Config from " + configURL)
-      var request:URLRequest = new URLRequest(configURL);
-      loader.load(request);
+      loader.load(new URLRequest(configURL));
     }
 
     private function configureListeners(dispatcher:IEventDispatcher):void {
@@ -52,34 +41,8 @@ package {
      private function completeHandler(event:Event):void {
       var loader:URLLoader = URLLoader(event.target);
       var config:Object = JSON.parse(loader.data);
-      doConfig();
-      this.WebStage(config);
+      WebStage(config);
       logger.debug("Config Loaded");
-    }
-
-    public function doConfig():void{
-      //Alert.show("This is an Alert!!!");
-      //Alert.show("Object submitted", "...", Alert.OK);
-    }
-
-    public function SWFStage(config:String):void{
-
-      logger.debug("Loading the SWF Stage");
-      var swfloader:Loader = new Loader();
-      var url:URLRequest = new URLRequest("experiments/blank_air/blank.swf");
-      logger.debug(url.url);
-      var loaderContext:LoaderContext = new LoaderContext(false, ApplicationDomain.currentDomain, null);
-      swfloader.contentLoaderInfo.addEventListener(Event.COMPLETE, onSwfLoaded);
-      swfloader.contentLoaderInfo.addEventListener(Event.INIT, function():void {logger.debug("INIT")});
-      swfloader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, function():void {logger.debug("Progressing");});
-      swfloader.load(url);
-      addChild(swfloader);
-    }
-
-    private function onSwfLoaded(e:Event):void{
-      logger.debug("SWFLoaded");
-      //addChild((e.target);
-      //webView.stage = stage;
     }
 
     public function WebStage(config:Object):void
@@ -99,15 +62,10 @@ package {
 
     private function onWebViewLoaded(e:Event):void{
       logger.info("WebViewCOmpleted");
-      webView.stage = null;
       var loader:Loader = new Loader();
-      loader.load(new URLRequest("experiments/blank_air/blank.swf"));
+      var lc:LoaderContext = new LoaderContext(false, ApplicationDomain.currentDomain, null);
       loader.contentLoaderInfo.addEventListener(Event.COMPLETE, gameLoadComplete);
-      //_myVariable.Main(this.stage);
-      //thing.Main(this.stage);
-      //addChild(thing);
-      //thing.addEventListener(Event.COMPLETE, gameLoadComplete);
-      //SWFStage("thing");
+      loader.load(new URLRequest("assets/blank.swf"), lc);
     }
 
     private function gameLoadComplete(e:Event):void{
@@ -115,11 +73,8 @@ package {
       var _myVariable:* = e.target.content;
       logger.info("Triggering new stage");
       _myVariable.Main(this.stage);
+      webView.stage = this.stage;
 
-    }
-
-    private function stageClick(event:MouseEvent):void{
-      logger.info("Click Happened");
     }
 
     private function onLocationChange(e:Event):void{

@@ -7,5 +7,5 @@ BUILD_LOC=builds/android
 
 $FLEX_LOC/amxmlc Main.as
 
-$AIR_LOC/adt -package -target apk -storetype pkcs12 -keystore $KEY_LOC/selfSigned.pfx -storepass Apangea%123 \
-$BUILD_LOC/TTMMobile.apk ttm_mobile-app-as3-as.xml Main.swf icons
+$AIR_LOC/adt -package -target apk-captive-runtime -storetype pkcs12 -keystore $KEY_LOC/selfSigned.pfx -storepass Apangea%123 \
+$BUILD_LOC/TTMMobile.apk ttm_mobile-app-as3-as.xml Main.swf icons assets

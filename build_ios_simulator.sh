@@ -8,12 +8,12 @@ BUILD_LOC=builds/ios
 $FLEX_LOC/amxmlc Main.as
 
 $AIR_LOC/adt -package \
--target ipa-test-interpreter-simulator \
+-target ipa-debug-interpreter-simulator \
 -storetype pkcs12 -keystore $KEY_LOC/ttm_app_key.p12 \
 -storepass Apangea%123 \
 $BUILD_LOC/TTM_mobile_simulator.ipa \
 ttm_mobile-app-as3-as.xml \
-Main.swf icons \
+Main.swf icons assets \
 -platformsdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk
 
 $AIR_LOC/adt -installApp \
