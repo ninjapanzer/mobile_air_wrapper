@@ -21,5 +21,5 @@ rm blank.swf
 
 $AIR_LOC/../lib/aot/bin/iOSBin/idb -devices
 
-$AIR_LOC/../lib/aot/bin/iOSBin/idb -forward 8999 9999 3
+$AIR_LOC/../lib/aot/bin/iOSBin/idb -forward 8999 9999 1
 $FLEX_LOC/fdb 8999

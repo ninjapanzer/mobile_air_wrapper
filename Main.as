@@ -9,15 +9,22 @@ package {
   import flash.net.*;
   import flash.net.URLLoader;
 
+  import flash.errors.IllegalOperationError;
+  import flash.text.TextField;
+
   import flash.system.ApplicationDomain;
   import flash.system.LoaderContext;
 
   import LogWriter;
+  import ClassLoader;
 
   public class Main extends Sprite {
 
     private var logFile:File = File.documentsDirectory.resolvePath("debug.log")
     private var logger:LogWriter = new LogWriter(logFile);
+
+    private var loader:ClassLoader;
+    private var tf:TextField = new TextField();
     
     private var webView:StageWebView = new StageWebView();
 
@@ -62,19 +69,27 @@ package {
 
     private function onWebViewLoaded(e:Event):void{
       logger.info("WebViewCOmpleted");
-      var loader:Loader = new Loader();
-      var lc:LoaderContext = new LoaderContext(false, ApplicationDomain.currentDomain, null);
-      loader.contentLoaderInfo.addEventListener(Event.COMPLETE, gameLoadComplete);
-      loader.load(new URLRequest("blank.swf"), lc);
+      loader = new ClassLoader();
+      loader.addEventListener(ClassLoader.LOAD_ERROR,loadErrorHandler);
+      loader.addEventListener(ClassLoader.CLASS_LOADED,classLoadedHandler);
+      loader.load("blank.swf");
       webView.stage = null;
+    }
+
+    private function loadErrorHandler(e:Event):void {
+        tf.text = "Load failed";
+        throw new IllegalOperationError("Cannot load the specified file.");
+    }
+
+    private function classLoadedHandler(e:Event):void {
+        var runtimeClassRef:Class = loader.getClass("blank");
+        var greeter:Object = new runtimeClassRef();
+
+        greeter.anotherMain(this.stage);
     }
 
     private function gameLoadComplete(e:Event):void{
 
-      //Start at http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/system/ApplicationDomain.html#includeExamplesSummary
-
-      var someblank:Class = ApplicationDomain.currentDomain.getDefinition("blank") as Class;
-      var myBlank:someblank = someblank(e.target.content);
       logger.debug("loading Complete for external swf");
       var li:LoaderInfo = LoaderInfo(e.target)
       var loader:Loader = li.loader
