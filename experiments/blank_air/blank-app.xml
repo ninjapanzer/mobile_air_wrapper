@@ -8,7 +8,7 @@
   <filename>TTM Mobile sub</filename>
   <supportedProfiles>mobileDevice</supportedProfiles>
   <initialWindow>
-    <content>blank.swf</content>
+    <content>Blank.swf</content>
     <visible>true</visible>
   </initialWindow>
   <icon>

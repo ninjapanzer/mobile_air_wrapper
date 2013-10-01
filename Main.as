@@ -1,5 +1,6 @@
 package {
   import flash.display.*;
+  import flash.system.*;
   import flash.html.HTMLLoader;
   import flash.net.URLRequest;
   import flash.filesystem.*;
@@ -7,7 +8,10 @@ package {
   import flash.geom.Rectangle;
   import flash.events.*;
   import flash.net.*;
+  import flash.utils.*;
   import flash.net.URLLoader;
+
+  import mx.utils.ObjectUtil;
 
   import flash.errors.IllegalOperationError;
   import flash.text.TextField;
@@ -30,6 +34,7 @@ package {
 
     public function Main():void {
       logger.debug("Starting");
+      logger.info(Capabilities.version.toString());
       loadConfig();
       logger.debug("Done");
     }
@@ -72,7 +77,7 @@ package {
       loader = new ClassLoader();
       loader.addEventListener(ClassLoader.LOAD_ERROR,loadErrorHandler);
       loader.addEventListener(ClassLoader.CLASS_LOADED,classLoadedHandler);
-      loader.load("blank.swf");
+      loader.load("Blank.swf");
       webView.stage = null;
     }
 
@@ -82,8 +87,10 @@ package {
     }
 
     private function classLoadedHandler(e:Event):void {
-        var runtimeClassRef:Class = loader.getClass("blank");
+        var runtimeClassRef:Class = loader.getClass("Blank");
         var greeter:Object = new runtimeClassRef();
+        var domain:ApplicationDomain = loader.getDomain();
+        logger.debug(domain.hasDefinition("Blank").toString());
 
         greeter.anotherMain(this.stage);
     }

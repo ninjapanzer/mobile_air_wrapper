@@ -29,17 +29,31 @@ package{
           swfLib = lib;
           request = new URLRequest(swfLib);
           var context:LoaderContext = new LoaderContext();
-          context.applicationDomain=ApplicationDomain.currentDomain;
+          context = new LoaderContext(false, ApplicationDomain.currentDomain, null);
           loader.load(request,context);
       }
 
       public function getClass(className:String):Class {
           try {
-              return loader.contentLoaderInfo.applicationDomain.getDefinition(className)  as  Class;
+              return loader.contentLoaderInfo.applicationDomain.getDefinition(className) as Class;
           } catch (e:Error) {
+            trace(e.getStackTrace());
+            trace(e.toString());
               throw new IllegalOperationError(className + " definition not found in " + swfLib);
           }
           return null;
+      }
+
+      public function hasClass(className:String):Boolean{
+         return loader.contentLoaderInfo.applicationDomain.hasDefinition(className);
+      }
+
+      public function getLoader():Loader{
+        return loader;
+      }
+
+      public function getDomain():ApplicationDomain{
+        return loader.contentLoaderInfo.applicationDomain;
       }
 
       private function completeHandler(e:Event):void {

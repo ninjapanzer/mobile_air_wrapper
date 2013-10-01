@@ -4,7 +4,7 @@ package {
   import flash.geom.Rectangle;
   import flash.media.StageWebView;
 
-  public class blank extends Sprite {
+  public class Blank extends Sprite {
 
     public var anotherWebView:StageWebView = new StageWebView();
     private var stag:Stage;
@@ -17,6 +17,10 @@ package {
       this.stag = _stage;
       anotherWebStage("http://boiling-fortress-9689.herokuapp.com/whereload.json");
 
+    }
+
+    public function getText():String{
+      return "HAPPY PANTS";
     }
 
     public function anotherWebStage(loc:String):void

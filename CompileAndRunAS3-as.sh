@@ -26,9 +26,9 @@ if [[ "$FLEX" == "" || "$AIR" == "" ]]; then
 else
   $FLEX_LOC/amxmlc -debug=true Main.as
 
-  $FLEX_LOC/amxmlc -debug=true experiments/blank_air/blank.as
+  $FLEX_LOC/amxmlc -debug=true experiments/blank_air/Blank.as
 
-  cp experiments/blank_air/blank.swf ./blank.swf
+  cp experiments/blank_air/blank.swf ./Blank.swf
 
   $AIR_LOC/adl ttm_mobile-app-as3-as.xml
 
