@@ -1,30 +1,40 @@
 package {
-  import flash.display.MovieClip;
   import flash.display.*;
+  import flash.system.*;
   import flash.html.HTMLLoader;
   import flash.net.URLRequest;
   import flash.filesystem.*;
   import flash.media.StageWebView;
   import flash.geom.Rectangle;
-  import flash.events.KeyboardEvent;
-  import flash.ui.Keyboard;
-  import flash.desktop.NativeApplication;
   import flash.events.*;
   import flash.net.*;
+  import flash.utils.*;
   import flash.net.URLLoader;
-  import flash.events.IOErrorEvent;
+
+  import mx.utils.ObjectUtil;
+
+  import flash.errors.IllegalOperationError;
+  import flash.text.TextField;
+
+  import flash.system.ApplicationDomain;
+  import flash.system.LoaderContext;
 
   import LogWriter;
+  import ClassLoader;
 
   public class Main extends Sprite {
 
     private var logFile:File = File.documentsDirectory.resolvePath("debug.log")
     private var logger:LogWriter = new LogWriter(logFile);
+
+    private var loader:ClassLoader;
+    private var tf:TextField = new TextField();
     
     private var webView:StageWebView = new StageWebView();
 
     public function Main():void {
       logger.debug("Starting");
+      logger.info(Capabilities.version.toString());
       loadConfig();
       logger.debug("Done");
     }
@@ -34,8 +44,7 @@ package {
       var configURL:String = "http://boiling-fortress-9689.herokuapp.com/whereload.json";
       configureListeners(loader);
       logger.debug("Loading Config from " + configURL)
-      var request:URLRequest = new URLRequest(configURL);
-      loader.load(request);
+      loader.load(new URLRequest(configURL));
     }
 
     private function configureListeners(dispatcher:IEventDispatcher):void {
@@ -44,15 +53,8 @@ package {
      private function completeHandler(event:Event):void {
       var loader:URLLoader = URLLoader(event.target);
       var config:Object = JSON.parse(loader.data);
-      doConfig();
-      trace(config.location);
-      this.WebStage(config);
-      logger.debug("Config Loaded")
-    }
-
-    public function doConfig():void{
-      //Alert.show("This is an Alert!!!");
-      //Alert.show("Object submitted", "...", Alert.OK);
+      WebStage(config);
+      logger.debug("Config Loaded");
     }
 
     public function WebStage(config:Object):void
@@ -60,21 +62,52 @@ package {
       logger.debug("Loading Web View");
       webView.stage = this.stage;
       stage.align = StageAlign.TOP_LEFT;
-      //stage.scaleMode = StageScaleMode.EXACT_FIT;
-      webView.addEventListener(Event.RESIZE, resizeHandler);
+      stage.scaleMode = StageScaleMode.EXACT_FIT;
+      webView.addEventListener("resize", resizeHandler);
       webView.addEventListener(LocationChangeEvent.LOCATION_CHANGING, onLocationChange);
-      webView.dispatchEvent(new Event(Event.RESIZE));
-      logger.info("Setting up Click Event Listener");
-      stage.addEventListener(MouseEvent.CLICK, stageClick);
-      webView.dispatchEvent(new MouseEvent(MouseEvent.CLICK));
+      webView.addEventListener(Event.COMPLETE, onWebViewLoaded);
 
       webView.viewPort = new Rectangle( 0, 0, stage.stageWidth, stage.stageHeight );
-      webView.loadURL( config.location );                               
+      webView.loadURL( config.location );
       logger.debug("Finished Loading Web View");
     }
 
-    private function stageClick(event:MouseEvent):void{
-      logger.info("Click Happened");
+    private function onWebViewLoaded(e:Event):void{
+      logger.info("WebViewCOmpleted");
+      loader = new ClassLoader();
+      loader.addEventListener(ClassLoader.LOAD_ERROR,loadErrorHandler);
+      loader.addEventListener(ClassLoader.CLASS_LOADED,classLoadedHandler);
+      loader.load("Blank.swf");
+      webView.stage = null;
+    }
+
+    private function loadErrorHandler(e:Event):void {
+        tf.text = "Load failed";
+        throw new IllegalOperationError("Cannot load the specified file.");
+    }
+
+    private function classLoadedHandler(e:Event):void {
+        var runtimeClassRef:Class = loader.getClass("Blank");
+        var greeter:Object = new runtimeClassRef();
+        var domain:ApplicationDomain = loader.getDomain();
+        logger.debug(domain.hasDefinition("Blank").toString());
+
+        greeter.anotherMain(this.stage);
+    }
+
+    private function gameLoadComplete(e:Event):void{
+
+      logger.debug("loading Complete for external swf");
+      var li:LoaderInfo = LoaderInfo(e.target)
+      var loader:Loader = li.loader
+
+      //var _myVariable:* = e.target.content;
+      logger.info("Triggering new stage");
+      //_myVariable.Main(this.stage);
+
+      logger.info("Triggering new stage");
+      webView.stage = this.stage;
+
     }
 
     private function onLocationChange(e:Event):void{

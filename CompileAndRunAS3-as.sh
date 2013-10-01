@@ -24,7 +24,13 @@ if [[ "$FLEX" == "" || "$AIR" == "" ]]; then
   echo "  | <FlexSDK>"
   echo "\nFor extra configuration edit the FLEX_LOC and AIR_LOC of this file\n\n\n"
 else
-  $FLEX_LOC/amxmlc Main.as -includes=mx.managers.systemClasses.MarshallingSupport
+  $FLEX_LOC/amxmlc -debug=true Main.as
+
+  $FLEX_LOC/amxmlc -debug=true experiments/blank_air/Blank.as
+
+  cp experiments/blank_air/blank.swf ./Blank.swf
 
   $AIR_LOC/adl ttm_mobile-app-as3-as.xml
+
+  rm blank.swf
 fi

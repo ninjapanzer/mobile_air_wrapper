@@ -2,26 +2,22 @@
 <application xmlns="http://ns.adobe.com/air/application/3.8"
              xmlns:s="library://ns.adobe.com/flex/spark"
              xmlns:mx="library://ns.adobe.com/flex/mx">
-  <id>proto.ttm.mobileplayer</id> 
+  <id>proto.ttm.mobileplayer.subtest</id>
   <versionNumber>0.2.1</versionNumber>
-  <name>TTM</name>
-  <filename>TTM Mobile</filename> 
+  <name>TTM_sub</name>
+  <filename>TTM Mobile sub</filename>
   <supportedProfiles>mobileDevice</supportedProfiles>
-  <initialWindow> 
-    <content>Main.swf</content>
+  <initialWindow>
+    <content>Blank.swf</content>
     <visible>true</visible>
-    <autoOrients>true</autoOrients>
-    <width>1600</width>
-    <height>1200</height>
-    <renderMode>auto</renderMode>
   </initialWindow>
-  <icon> 
-    <image29x29>icons/Icon-Small.png</image29x29> 
-    <image57x57>icons/Icon.png</image57x57> 
+  <icon>
+    <image29x29>icons/Icon-Small.png</image29x29>
+    <image57x57>icons/Icon.png</image57x57>
     <image512x512>icons/512.png</image512x512>
   </icon>
   <iPhone>
-    <InfoAdditions> 
+    <InfoAdditions>
       <![CDATA[
          <key>UIDeviceFamily</key>
             <array>
@@ -30,7 +26,6 @@
             </array>
       ]]>
     </InfoAdditions>
-    <requestedDisplayResolution>high</requestedDisplayResolution>
   </iPhone>
   <android>
     <manifestAdditions>
