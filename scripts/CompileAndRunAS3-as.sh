@@ -28,7 +28,7 @@ else
 
   $FLEX_LOC/amxmlc -debug=true experiments/blank_air/Blank.as
 
-  cp experiments/blank_air/blank.swf ./Blank.swf
+  cp experiments/blank_air/Blank.swf ./Blank.swf
 
   $AIR_LOC/adl ttm_mobile-app-as3-as.xml
 
