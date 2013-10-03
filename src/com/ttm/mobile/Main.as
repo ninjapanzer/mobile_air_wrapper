@@ -1,4 +1,4 @@
-package {
+package com.ttm.mobile{
   import flash.display.*;
   import flash.system.*;
   import flash.html.HTMLLoader;
@@ -19,8 +19,8 @@ package {
   import flash.system.ApplicationDomain;
   import flash.system.LoaderContext;
 
-  import LogWriter;
-  import ClassLoader;
+  import com.ttm.mobile.util.LogWriter;
+  import com.ttm.mobile.util.ClassLoader;
 
   public class Main extends Sprite {
 

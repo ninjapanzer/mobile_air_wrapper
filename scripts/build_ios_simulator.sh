@@ -5,18 +5,16 @@ FLEX_LOC=runtimes/flex_sdk_4.6/bin
 KEY_LOC=keys/ios
 BUILD_LOC=builds/ios
 
-$FLEX_LOC/amxmlc Main.as
-$FLEX_LOC/amxmlc -debug=true experiments/blank_air/blank.as
-
-cp experiments/blank_air/blank.swf ./blank.swf
+$FLEX_LOC/amxmlc -swf-version=20 -compiler.source-path=src -static-link-runtime-shared-libraries=true $AIR_PROJECT_ROOT/Main.as -output $BIN_DIR/Main.swf
+$FLEX_LOC/amxmlc -debug=true experiments/blank_air/Blank.as -output $BIN_DIR/Blank.swf
 
 $AIR_LOC/adt -package \
 -target ipa-debug-interpreter-simulator \
 -storetype pkcs12 -keystore $KEY_LOC/ttm_app_key.p12 \
 -storepass Apangea%123 \
 $BUILD_LOC/TTM_mobile_simulator.ipa \
-ttm_mobile-app-as3-as.xml \
-Main.swf icons blank.swf \
+$BIN_DIR/ttm_mobile-app-as3-as.xml \
+$BIN_DIR/Main.swf $AIR_PROJECT_ROOT/icons \
 -platformsdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk
 
 $AIR_LOC/adt -installApp \
@@ -30,5 +28,3 @@ $AIR_LOC/adt -launchApp \
 -platformsdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk \
 -device ios-simulator \
 -appid proto.ttm.mobileplayer
-
-rm blank.swf

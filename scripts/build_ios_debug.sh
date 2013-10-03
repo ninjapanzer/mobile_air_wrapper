@@ -1,5 +1,14 @@
 #!/bin/sh
 
+MODE=$1
+DEBUG=0
+
+if [[ "$MODE" == *debug* ]];then
+  DEBUG=1
+  MODE="$MODE -listen 9999"
+fi
+
+
 AIR_LOC=runtimes/AdobeAIRSDK/bin
 FLEX_LOC=runtimes/flex_sdk_4.6/bin
 KEY_LOC=keys/ios
@@ -10,7 +19,7 @@ $FLEX_LOC/amxmlc -debug=true -swf-version=20 experiments/blank_air/Blank.as
 
 cp experiments/blank_air/Blank.swf ./Blank.swf
 
-$AIR_LOC/adt -package -target ipa-debug -listen 9999 \
+$AIR_LOC/adt -package -target $MODE \
 -keystore $KEY_LOC/ttm_app_key.p12 -storetype pkcs12 -storepass Apangea%123 \
 -provisioning-profile $KEY_LOC/TTM_AIR_ADHOC_Mobile.mobileprovision \
 $BUILD_LOC/TTM_Mobile.ipa \
@@ -34,8 +43,10 @@ echo "Installing new build"
 
 $AIR_LOC/adt -installApp -platform ios -device $DEVICE_ID -package $BUILD_LOC/TTM_Mobile.ipa
 
-echo "Running idb forwarding on 8999"
-echo "run $FLEX_LOC/fdb 8999 and run"
+if [[ "$DEBUG" == "1" ]]; then
+  echo "Running idb forwarding on 8999"
+  echo "run $FLEX_LOC/fdb 8999 and run"
 
-$AIR_LOC/../lib/aot/bin/iOSBin/idb -forward 8999 9999 $DEVICE_ID
-#$FLEX_LOC/fdb 8999
+  $AIR_LOC/../lib/aot/bin/iOSBin/idb -forward 8999 9999 $DEVICE_ID
+  #$FLEX_LOC/fdb 8999
+fi

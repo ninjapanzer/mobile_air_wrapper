@@ -2,6 +2,9 @@
 
 RUNTIME_ARCHIVE="https://docs.google.com/a/thinkthroughmath.com/file/d/0B6jQ5p6g8RtodVVuYUwtQmhWVFk/edit?usp=sharing"
 
+export AIR_PROJECT_ROOT=src/com/ttm/mobile
+export BUILD_DIR=builds
+
 FLEX_LOC=runtimes/flex_sdk_4.6/bin
 AIR_LOC=runtimes/AdobeAIRSDK/bin
 BUILD_LOC=builds/air
@@ -24,13 +27,9 @@ if [[ "$FLEX" == "" || "$AIR" == "" ]]; then
   echo "  | <FlexSDK>"
   echo "\nFor extra configuration edit the FLEX_LOC and AIR_LOC of this file\n\n\n"
 else
-  $FLEX_LOC/amxmlc -debug=true Main.as
+  $FLEX_LOC/amxmlc -swf-version=20 -compiler.source-path=src -static-link-runtime-shared-libraries=true $AIR_PROJECT_ROOT/Main.as -output $BIN_DIR/Main.swf
 
-  $FLEX_LOC/amxmlc -debug=true experiments/blank_air/Blank.as
+  $FLEX_LOC/amxmlc -debug=true -swf-version=20 experiments/blank_air/Blank.as -output $BIN_DIR/Blank.swf
 
-  cp experiments/blank_air/Blank.swf ./Blank.swf
-
-  $AIR_LOC/adl ttm_mobile-app-as3-as.xml
-
-  rm blank.swf
+  $AIR_LOC/adl bin/ttm_mobile-app-as3-as.xml
 fi

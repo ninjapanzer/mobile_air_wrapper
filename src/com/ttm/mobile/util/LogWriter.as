@@ -1,4 +1,4 @@
-package {
+package com.ttm.mobile.util{
   import flash.filesystem.*;
 
   public class LogWriter{

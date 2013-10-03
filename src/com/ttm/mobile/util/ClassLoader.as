@@ -1,4 +1,4 @@
-package{
+package com.ttm.mobile.util{
   import flash.display.Loader;
   import flash.errors.IllegalOperationError;
   import flash.events.Event;
