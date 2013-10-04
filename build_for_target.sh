@@ -14,7 +14,7 @@ if [[ "$TARGET" == "ios" ]]; then
     scripts/./build_ios_debug.sh ipa-debug
   fi
   if [[ "$MODE" == "deploy" ]]; then
-    scripts/./build_ios_deploy.sh ipa-ad-hoc
+    scripts/./build_ios_debug.sh ipa-ad-hoc
   fi
   if [[ "$MODE" == "simulator" ]]; then
     scripts/./build_ios_simulator.sh

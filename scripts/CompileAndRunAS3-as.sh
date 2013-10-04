@@ -31,5 +31,8 @@ else
 
   $FLEX_LOC/amxmlc -debug=true -swf-version=20 experiments/blank_air/Blank.as -output $BIN_DIR/Blank.swf
 
-  $AIR_LOC/adl bin/ttm_mobile-app-as3-as.xml
+  cd $BIN_DIR
+
+  ../$AIR_LOC/adl ttm_mobile-app-as3-as.xml
+
 fi
