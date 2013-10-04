@@ -35,4 +35,7 @@ else
 
   ../$AIR_LOC/adl ttm_mobile-app-as3-as.xml
 
+  rm $BIN_DIR/Main.swf
+  rm $BIN_DIR/Blank.swf
+
 fi
