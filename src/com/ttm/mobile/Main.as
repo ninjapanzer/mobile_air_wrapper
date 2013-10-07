@@ -114,7 +114,6 @@ package com.ttm.mobile{
     }
 
     private function onLocationChange(e:Event):void{
-      webView.loadURL('javascript:=;');
       var localLoader:URLLoader = new URLLoader();
       localLoader.addEventListener(Event.COMPLETE, function(e:Event) : void {
         var pattern:RegExp = /(swfobject.embedSWF)\(\'(.*?)\'/gi //'

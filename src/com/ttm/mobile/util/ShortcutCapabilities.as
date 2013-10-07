@@ -12,7 +12,7 @@ package com.ttm.mobile.util{
     }
 
     public static function isMobile():Boolean{
-        return (isAndroid() || isIOS()); // || isBlackberry()
+      return (isAndroid() || isIOS());
     }
 
   }
