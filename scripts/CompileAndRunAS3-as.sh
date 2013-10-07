@@ -33,7 +33,9 @@ else
 
   cd $BIN_DIR
 
-  ../$AIR_LOC/adl ttm_mobile-app-as3-as.xml
+  ../$AIR_LOC/adl -screensize 1080 ttm_mobile-app-as3-as.xml
+
+  cd ..
 
   rm $BIN_DIR/Main.swf
   rm $BIN_DIR/Blank.swf
