@@ -1,14 +1,37 @@
 package com.ttm.mobile.util{
-  import flash.filesystem.*;
+  import flash.filesystem.File;
+  import flash.filesystem.FileStream;
+  import flash.filesystem.FileMode;
 
   public class LogWriter{
     private var stream:FileStream = new FileStream();
+    private var mobile:Boolean = ShortcutCapabilities.isMobile()
 
     public function LogWriter(initialFile:File = null){
-      if(initialFile == null){
+      if(!mobile){
+        if(initialFile == null){
         initialFile = File.documentsDirectory.resolvePath("main.log");
       }
       stream.open(initialFile, FileMode.APPEND);
+      }
+    }
+
+    public function debug(message:String = "No Message"):void{
+      if(!mobile){
+        sendDebug(message);
+      }
+    }
+
+    public function info(message:String = "No Message"):void{
+      if(!mobile){
+        sendInfo(message);
+      }
+    }
+
+    public function warning(message:String = "No Message"):void{
+      if(!mobile){
+        sendWarning(message);
+      }
     }
 
     private function timeStamp():String{
@@ -19,21 +42,24 @@ package com.ttm.mobile.util{
       return type + ":" + timeStamp()+ ": ";
     }
 
-    public function debug(message:String = "No Message"):void{
+    private function sendDebug(message:String = "No Message"):void{
+
       stream.writeUTFBytes(messageHeader("DEBUG") + message +"\n");
     }
 
-    public function info(message:String = "No Message"):void{
+    private function sendInfo(message:String = "No Message"):void{
       stream.writeUTFBytes(messageHeader("INFO") + message +"\n");
     }
 
-    public function warning(message:String = "No Message"):void{
+    private function sendWarning(message:String = "No Message"):void{
       stream.writeUTFBytes(messageHeader("WARNING") + message +"\n");
     }
 
     public function close():void{
-      debug("Closed File");
-      stream.close();
+      if (!mobile){
+        debug("Closed File");
+        stream.close();
+      }
     }
 
   }

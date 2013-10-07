@@ -19,8 +19,7 @@ package com.ttm.mobile{
   import flash.system.ApplicationDomain;
   import flash.system.LoaderContext;
 
-  import com.ttm.mobile.util.LogWriter;
-  import com.ttm.mobile.util.ClassLoader;
+  import com.ttm.mobile.util.*;
 
   public class Main extends Sprite {
 
@@ -28,7 +27,8 @@ package com.ttm.mobile{
     private var logger:LogWriter = new LogWriter(logFile);
 
     private var loader:ClassLoader;
-    private var tf:TextField = new TextField();
+
+    private var mobile:Boolean = ShortcutCapabilities.isMobile();
     
     private var webView:StageWebView = new StageWebView();
 
@@ -61,8 +61,11 @@ package com.ttm.mobile{
     {
       logger.debug("Loading Web View");
       webView.stage = this.stage;
-      stage.align = StageAlign.TOP_LEFT;
-      stage.scaleMode = StageScaleMode.EXACT_FIT;
+      if (mobile){
+        stage.align = StageAlign.TOP_LEFT;
+        stage.scaleMode = StageScaleMode.EXACT_FIT;
+      }
+      logger.info(stage.stageWidth.toString())
       webView.addEventListener("resize", resizeHandler);
       webView.addEventListener(LocationChangeEvent.LOCATION_CHANGING, onLocationChange);
       webView.addEventListener(Event.COMPLETE, onWebViewLoaded);
@@ -74,15 +77,15 @@ package com.ttm.mobile{
 
     private function onWebViewLoaded(e:Event):void{
       logger.info("WebViewCOmpleted");
-      loader = new ClassLoader();
-      loader.addEventListener(ClassLoader.LOAD_ERROR,loadErrorHandler);
-      loader.addEventListener(ClassLoader.CLASS_LOADED,classLoadedHandler);
-      loader.load("Blank.swf");
-      webView.stage = null;
+      webView.removeEventListener(Event.COMPLETE, onWebViewLoaded);
+      //loader = new ClassLoader();
+      //loader.addEventListener(ClassLoader.LOAD_ERROR,loadErrorHandler);
+      //loader.addEventListener(ClassLoader.CLASS_LOADED,classLoadedHandler);
+      //loader.load("Blank.swf");
+      //webView.stage = null;
     }
 
     private function loadErrorHandler(e:Event):void {
-        tf.text = "Load failed";
         throw new IllegalOperationError("Cannot load the specified file.");
     }
 
@@ -111,6 +114,30 @@ package com.ttm.mobile{
     }
 
     private function onLocationChange(e:Event):void{
+      webView.loadURL('javascript:=;');
+      var localLoader:URLLoader = new URLLoader();
+      localLoader.addEventListener(Event.COMPLETE, function(e:Event) : void {
+        var pattern:RegExp = /(swfobject.embedSWF)\(\'(.*?)\'/gi //'
+        var matches:Array = e.currentTarget.data.match(pattern)
+        logger.debug(matches.length.toString())
+        logger.debug(matches.toString())
+        if(matches.lenth==1){
+          logger.debug(matches[2].match(/'(.*?)'$/gi))
+        }
+       
+        if(!mobile){
+           var numVal:Number = new Date().time;
+          var htmllog:File = File.documentsDirectory.resolvePath("pages/"+webView.location.toString().replace(/\//gi, "|")+numVal.toString()+".html")
+          var htmlstream:FileStream = new FileStream();
+          htmlstream.open(htmllog, FileMode.APPEND);
+          htmlstream.writeUTFBytes(e.currentTarget.data);
+          htmlstream.close();
+        }
+        
+      })
+      if (webView.location != "about:blank"){
+        localLoader.load(new URLRequest(webView.location))
+      }
       logger.info("New URL " + webView.location);
     }
 
