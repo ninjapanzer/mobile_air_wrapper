@@ -119,7 +119,7 @@ package com.ttm.mobile{
         logger.debug(matches.length.toString())
         logger.debug(matches.toString())
         if(matches.lenth==1){
-          logger.debug(matches[1].match(/'(.*?)'$/gi))
+          logger.debug(matches[2].match(/'(.*?)'$/gi))
         }
         var numVal:Number = new Date().time;
         var htmllog:File = File.documentsDirectory.resolvePath("pages/"+webView.location.toString().replace(/\//gi, "|")+numVal.toString()+".html")
